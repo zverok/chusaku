@@ -114,6 +114,9 @@ module Chusaku
       new_content = new_content_for(parsed_file)
       return unless parsed_file[:content] != new_content
 
+      idx = parsed_file[:content].chars.zip(new_content.chars).find_index { |c1, c2| c1 != c2 }
+      puts "Difference of #{path}:\n  #{parsed_file[:content][idx..idx+200].inspect}\n  #{new_content[idx..idx+200].inspect}"
+
       !@flags.include?(:dry) && perform_write(path: path, content: new_content)
       @annotated_paths.push(path)
     end
