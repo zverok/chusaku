@@ -11,7 +11,8 @@ begin
   require 'rake'
   load './Rakefile'
   Rake::Task[:environment].invoke
-rescue StandardError
+rescue StandardError => ex
+  pp ["EXCEPTION", ex]
 end
 
 require 'chusaku/cli'

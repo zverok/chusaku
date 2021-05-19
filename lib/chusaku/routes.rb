@@ -29,6 +29,7 @@ module Chusaku
       def call
         routes = {}
 
+        pp Rails.application.routes.routes.map(&:defaults)
         Rails.application.routes.routes.each do |route|
           controller, action, defaults = extract_data_from(route)
           routes[controller] ||= {}
