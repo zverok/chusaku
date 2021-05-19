@@ -12,7 +12,12 @@ begin
   load './Rakefile'
   Rake::Task[:environment].invoke
 rescue StandardError => ex
-  pp ["EXCEPTION", ex]
+  puts "_________"
+  puts "EXCEPTION"
+  puts
+  puts ex.full_message
+  puts
+  puts "_________"
 end
 
 require 'chusaku/cli'
