@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'diffy'
 require 'chusaku/version'
 require 'chusaku/parser'
 require 'chusaku/routes'
@@ -114,7 +115,13 @@ module Chusaku
       new_content = new_content_for(parsed_file)
       return unless parsed_file[:content] != new_content
 
-      !@flags.include?(:dry) && perform_write(path: path, content: new_content)
+      if !@flags.include?(:dry)
+        perform_write(path: path, content: new_content)
+      elsif @flags.include?(:verbose)
+        @diffs ||= {}
+        @diffs[path] = Diffy::Diff.new(parsed_file[:content], new_content, context: 3).to_s
+      end
+
       @annotated_paths.push(path)
     end
 
@@ -155,6 +162,18 @@ module Chusaku
     # @return [Integer] 0 for success, 1 for error
     def output_results
       puts(output_copy)
+      if @flags.include?(:dry) && @flags.include?(:verbose) && @diffs&.any?
+        puts ''
+        puts 'Diffs:'
+        puts ''
+
+        @diffs.each do |path, diff|
+          puts path
+          puts '-' * path.length
+          puts diff
+          puts
+        end
+      end
       exit_code = 0
       exit_code = 1 if @annotated_paths.any? && @flags.include?(:error_on_annotation)
       exit_code

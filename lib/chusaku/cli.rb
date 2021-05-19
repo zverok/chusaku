@@ -57,6 +57,7 @@ module Chusaku
         add_error_on_annotation_flag(opts)
         add_dry_run_flag(opts)
         add_version_flag(opts)
+        add_verbose_flag(opts)
         add_help_flag(opts)
       end
     end
@@ -84,6 +85,15 @@ module Chusaku
         'Run without file modifications'
       ) do
         @options[:dry] = true
+      end
+    end
+
+    def add_verbose_flag(opts)
+      opts.on(
+        '--verbose',
+        'Verbose diff output for unannotated (use with --dry-run)'
+      ) do
+        @options[:verbose] = true
       end
     end
 

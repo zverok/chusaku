@@ -48,4 +48,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-performance', '~> 1.9'
 
   spec.add_dependency 'railties', '>= 3.0'
+  spec.add_dependency 'diffy'
 end
