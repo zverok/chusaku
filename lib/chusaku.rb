@@ -23,6 +23,7 @@ module Chusaku
       @routes = Chusaku::Routes.call
       @annotated_paths = []
       controllers_pattern = 'app/controllers/**/*_controller.rb'
+      pp @routes
 
       Dir.glob(Rails.root.join(controllers_pattern)).each do |path|
         controller = %r{controllers\/(.*)_controller\.rb}.match(path)[1]
